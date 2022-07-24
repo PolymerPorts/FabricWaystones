@@ -1,0 +1,5 @@
+{
+  "polyport.waystones.settings": "传送石碑设置",
+  "polyport.waystones.rename": "重命名此传送石碑",
+  "polyport.waystones.cost": "花费: %s × %s"
+}
