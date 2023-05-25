@@ -8,6 +8,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
@@ -15,9 +19,6 @@ import net.minecraft.structure.processor.StructureProcessorList;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import wraith.fwaystones.FabricWaystones;
 import wraith.fwaystones.gui.UniversalWaystoneGui;
@@ -37,7 +38,8 @@ public final class Utils {
     public static final DecimalFormat df = new DecimalFormat("#.##");
     public static final Random random = new Random();
     private static final RegistryKey<StructureProcessorList> EMPTY_PROCESSOR_LIST_KEY = RegistryKey.of(
-        Registry.STRUCTURE_PROCESSOR_LIST_KEY, new Identifier("minecraft", "empty"));
+            RegistryKeys.PROCESSOR_LIST, new Identifier("minecraft", "empty"));
+
     private Utils() {
     }
 
@@ -66,8 +68,8 @@ public final class Utils {
             return "DeatHunter was here";
         }
         var sb = new StringBuilder();
-        char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
-        char[] consonants = { 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z' };
+        char[] vowels = {'a', 'e', 'i', 'o', 'u'};
+        char[] consonants = {'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'};
         for (int i = 0; i < 4; ++i) {
             var consonant = consonants[Utils.random.nextInt(consonants.length)];
             if (i == 0) {
@@ -82,12 +84,12 @@ public final class Utils {
     public static void addToStructurePool(MinecraftServer server, Identifier village, Identifier waystone, int weight) {
 
         RegistryEntry<StructureProcessorList> emptyProcessorList = server.getRegistryManager()
-            .get(Registry.STRUCTURE_PROCESSOR_LIST_KEY)
-            .entryOf(EMPTY_PROCESSOR_LIST_KEY);
+                .get(RegistryKeys.PROCESSOR_LIST)
+                .entryOf(EMPTY_PROCESSOR_LIST_KEY);
 
         var poolGetter = server.getRegistryManager()
-            .get(Registry.STRUCTURE_POOL_KEY)
-            .getOrEmpty(village);
+                .get(RegistryKeys.TEMPLATE_POOL)
+                .getOrEmpty(village);
 
         if (poolGetter.isEmpty()) {
             FabricWaystones.LOGGER.error("Cannot add to " + village + " as it cannot be found!");
@@ -150,7 +152,7 @@ public final class Utils {
                     return false;
                 }
                 if (takeCost) {
-                    player.damage(DamageSource.OUT_OF_WORLD, amount);
+                    player.damage(player.getWorld().getDamageSources().magic(), amount);
                 }
                 return true;
             case "hunger":
@@ -184,12 +186,12 @@ public final class Utils {
                 return true;
             case "item":
                 Identifier itemId = Config.getInstance().teleportCostItem();
-                Item item = Registry.ITEM.get(itemId);
+                Item item = Registries.ITEM.get(itemId);
                 if (!containsItem(player.getInventory(), item, amount)) {
                     return false;
                 }
                 if (takeCost) {
-                    removeItem(player.getInventory(), Registry.ITEM.get(itemId), amount);
+                    removeItem(player.getInventory(), Registries.ITEM.get(itemId), amount);
 
                     if (player.world.isClient || FabricWaystones.WAYSTONE_STORAGE == null) {
                         return true;
@@ -208,7 +210,7 @@ public final class Utils {
                         }
                     }
                     if (!found) {
-                        oldInventory.add(new ItemStack(Registry.ITEM.get(itemId), amount));
+                        oldInventory.add(new ItemStack(Registries.ITEM.get(itemId), amount));
                     }
                     waystoneBE.setInventory(oldInventory);
                 }

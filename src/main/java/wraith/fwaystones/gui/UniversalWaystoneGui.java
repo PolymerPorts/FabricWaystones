@@ -6,12 +6,12 @@ import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 import wraith.fwaystones.FabricWaystones;
 import wraith.fwaystones.access.PlayerAccess;
@@ -236,7 +236,7 @@ public class UniversalWaystoneGui extends PagedGui {
                     type = "level";
                     break;
                 case "item":
-                    item = Registry.ITEM.get(Config.getInstance().teleportCostItem());
+                    item = Registries.ITEM.get(Config.getInstance().teleportCostItem());
                     type = "item";
                     break;
                 default:

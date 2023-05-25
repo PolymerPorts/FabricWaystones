@@ -1,8 +1,8 @@
 package wraith.fwaystones.mixin;
 
+import net.minecraft.registry.tag.TagEntry;
+import net.minecraft.registry.tag.TagGroupLoader;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.tag.TagEntry;
-import net.minecraft.tag.TagGroupLoader;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

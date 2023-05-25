@@ -2,8 +2,7 @@ package wraith.fwaystones.block;
 
 import eu.pb4.holograms.api.elements.SpacingHologramElement;
 import eu.pb4.holograms.api.holograms.WorldHologram;
-import eu.pb4.polymer.api.utils.PolymerObject;
-import eu.pb4.sgui.virtual.VirtualScreenHandlerInterface;
+import eu.pb4.polymer.core.api.utils.PolymerObject;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.block.BlockState;

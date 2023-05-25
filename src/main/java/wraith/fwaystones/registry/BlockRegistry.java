@@ -4,7 +4,8 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.*;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import wraith.fwaystones.block.WaystoneBlock;
 import wraith.fwaystones.util.Config;
 import wraith.fwaystones.util.Utils;
@@ -39,11 +40,11 @@ public final class BlockRegistry {
 
     private static void registerAndAdd(String id, Block block) {
         WAYSTONE_BLOCKS.put(id, block);
-        Registry.register(Registry.BLOCK, Utils.ID(id), block);
+        Registry.register(Registries.BLOCK, Utils.ID(id), block);
     }
 
     private static WaystoneStyle style(Block top, Block bottom) {
-        return WaystoneStyle.simple((AbstractButtonBlock) top, (WallBlock) bottom);
+        return WaystoneStyle.simple((ButtonBlock) top, (WallBlock) bottom);
     }
 
 }
