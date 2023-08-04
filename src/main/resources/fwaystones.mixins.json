@@ -17,11 +17,6 @@
     "StructureStartAccessor",
     "TagGroupLoaderMixin"
   ],
-  "client": [
-    "ClientPlayerEntityAccessor",
-    "ClientPlayerEntityMixin",
-    "ClientPlayNetworkHandlerMixin"
-  ],
   "injectors": {
     "defaultRequire": 1
   }

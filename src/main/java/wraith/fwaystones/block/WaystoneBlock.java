@@ -1,6 +1,6 @@
 package wraith.fwaystones.block;
 
-import eu.pb4.polymer.api.block.PolymerBlock;
+import eu.pb4.polymer.core.api.block.PolymerBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -15,6 +15,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
@@ -31,9 +32,6 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
@@ -126,7 +124,7 @@ public class WaystoneBlock extends BlockWithEntity implements Waterloggable, Pol
 
         if (blockPos.getY() < world.getTopY() - 1 && world.getBlockState(blockPos.up()).canReplace(ctx)) {
             return this.getDefaultState()
-                .with(FACING, ctx.getPlayerFacing().getOpposite())
+                .with(FACING, ctx.getPlayerLookDirection().getOpposite())
                 .with(HALF, DoubleBlockHalf.LOWER)
                 .with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER)
                 .with(ACTIVE, hasOwner);
@@ -251,7 +249,7 @@ public class WaystoneBlock extends BlockWithEntity implements Waterloggable, Pol
                     var config = Config.getInstance();
                     var discoverItemId = config.getDiscoverItem();
                     if (discoverItemId != null && !player.isCreative()) {
-                        var discoverItem = Registry.ITEM.get(discoverItemId);
+                        var discoverItem = Registries.ITEM.get(discoverItemId);
                         var discoverAmount = config.getDiscoverItemAmount();
                         if (!Utils.containsItem(player.getInventory(), discoverItem, discoverAmount)) {
                             player.sendMessage(Text.translatable(
@@ -332,13 +330,15 @@ public class WaystoneBlock extends BlockWithEntity implements Waterloggable, Pol
         super.onStateReplaced(state, world, pos, newState, moved);
     }
 
+    @Override
     public FluidState getFluidState(BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
+    @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         if (state.get(WATERLOGGED)) {
-            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }

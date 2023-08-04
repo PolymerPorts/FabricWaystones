@@ -2,9 +2,10 @@ package wraith.fwaystones.registry;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.Material;
 import net.minecraft.block.*;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
 import wraith.fwaystones.block.WaystoneBlock;
 import wraith.fwaystones.util.Config;
 import wraith.fwaystones.util.Utils;
@@ -14,15 +15,15 @@ import java.util.HashMap;
 
 public final class BlockRegistry {
 
-    public static final Block BLACKSTONE_BRICK_WAYSTONE = new WaystoneBlock(style(Blocks.POLISHED_BLACKSTONE_BUTTON, Blocks.POLISHED_BLACKSTONE_BRICK_WALL), FabricBlockSettings.of(Material.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
-    public static final Block DEEPSLATE_BRICK_WAYSTONE = new WaystoneBlock(style(Blocks.POLISHED_BLACKSTONE_BUTTON, Blocks.POLISHED_BLACKSTONE_BRICK_WALL), FabricBlockSettings.of(Material.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
-    public static final Block DESERT_WAYSTONE = new WaystoneBlock(style(Blocks.BIRCH_BUTTON, Blocks.SANDSTONE_WALL), FabricBlockSettings.of(Material.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
-    public static final Block ENDSTONE_BRICK_WAYSTONE = new WaystoneBlock(style(Blocks.BIRCH_BUTTON, Blocks.END_STONE_BRICK_WALL), FabricBlockSettings.of(Material.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
-    public static final Block NETHER_BRICK_WAYSTONE = new WaystoneBlock(style(Blocks.CRIMSON_BUTTON, Blocks.NETHER_BRICK_WALL), FabricBlockSettings.of(Material.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
-    public static final Block RED_DESERT_WAYSTONE = new WaystoneBlock(style(Blocks.ACACIA_BUTTON, Blocks.RED_SANDSTONE_WALL), FabricBlockSettings.of(Material.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
-    public static final Block RED_NETHER_BRICK_WAYSTONE = new WaystoneBlock(style(Blocks.CRIMSON_BUTTON, Blocks.RED_NETHER_BRICK_WALL), FabricBlockSettings.of(Material.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
-    public static final Block STONE_BRICK_WAYSTONE = new WaystoneBlock(style(Blocks.STONE_BUTTON, Blocks.STONE_BRICK_WALL), FabricBlockSettings.of(Material.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
-    public static final Block WAYSTONE = new WaystoneBlock(style(Blocks.STONE_BUTTON, Blocks.ANDESITE_WALL), FabricBlockSettings.of(Material.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
+    public static final Block BLACKSTONE_BRICK_WAYSTONE = new WaystoneBlock(style(Blocks.POLISHED_BLACKSTONE_BUTTON, Blocks.POLISHED_BLACKSTONE_BRICK_WALL), FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
+    public static final Block DEEPSLATE_BRICK_WAYSTONE = new WaystoneBlock(style(Blocks.POLISHED_BLACKSTONE_BUTTON, Blocks.POLISHED_BLACKSTONE_BRICK_WALL), FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
+    public static final Block DESERT_WAYSTONE = new WaystoneBlock(style(Blocks.BIRCH_BUTTON, Blocks.SANDSTONE_WALL), FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
+    public static final Block ENDSTONE_BRICK_WAYSTONE = new WaystoneBlock(style(Blocks.BIRCH_BUTTON, Blocks.END_STONE_BRICK_WALL), FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
+    public static final Block NETHER_BRICK_WAYSTONE = new WaystoneBlock(style(Blocks.CRIMSON_BUTTON, Blocks.NETHER_BRICK_WALL), FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
+    public static final Block RED_DESERT_WAYSTONE = new WaystoneBlock(style(Blocks.ACACIA_BUTTON, Blocks.RED_SANDSTONE_WALL), FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
+    public static final Block RED_NETHER_BRICK_WAYSTONE = new WaystoneBlock(style(Blocks.CRIMSON_BUTTON, Blocks.RED_NETHER_BRICK_WALL), FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
+    public static final Block STONE_BRICK_WAYSTONE = new WaystoneBlock(style(Blocks.STONE_BUTTON, Blocks.STONE_BRICK_WALL), FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
+    public static final Block WAYSTONE = new WaystoneBlock(style(Blocks.STONE_BUTTON, Blocks.ANDESITE_WALL), FabricBlockSettings.create().sounds(BlockSoundGroup.STONE).requiresTool().strength(Config.getInstance().getHardness(), 3600000));
     public static final HashMap<String, Block> WAYSTONE_BLOCKS = new HashMap<>();
 
     public static void registerBlocks() {
@@ -39,11 +40,11 @@ public final class BlockRegistry {
 
     private static void registerAndAdd(String id, Block block) {
         WAYSTONE_BLOCKS.put(id, block);
-        Registry.register(Registry.BLOCK, Utils.ID(id), block);
+        Registry.register(Registries.BLOCK, Utils.ID(id), block);
     }
 
     private static WaystoneStyle style(Block top, Block bottom) {
-        return WaystoneStyle.simple((AbstractButtonBlock) top, (WallBlock) bottom);
+        return WaystoneStyle.simple((ButtonBlock) top, (WallBlock) bottom);
     }
 
 }

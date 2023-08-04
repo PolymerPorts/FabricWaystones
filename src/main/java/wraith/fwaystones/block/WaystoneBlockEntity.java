@@ -2,8 +2,7 @@ package wraith.fwaystones.block;
 
 import eu.pb4.holograms.api.elements.SpacingHologramElement;
 import eu.pb4.holograms.api.holograms.WorldHologram;
-import eu.pb4.polymer.api.utils.PolymerObject;
-import eu.pb4.sgui.virtual.VirtualScreenHandlerInterface;
+import eu.pb4.polymer.core.api.utils.PolymerObject;
 import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.block.BlockState;
@@ -386,7 +385,7 @@ public class WaystoneBlockEntity extends LootableContainerBlockEntity implements
                 if (playerEntity.getStackInHand(hand).getItem() instanceof AbyssWatcherItem) {
                     player.sendToolBreakStatus(hand);
                     playerEntity.getStackInHand(hand).decrement(1);
-                    player.world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
+                    player.getWorld().playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1F, 1F);
                     break;
                 }
             }
@@ -420,13 +419,13 @@ public class WaystoneBlockEntity extends LootableContainerBlockEntity implements
             case POCKET_WORMHOLE -> Config.getInstance().getCooldownFromPocketWormhole();
         });
         var oldPos = player.getBlockPos();
-        player.world.playSound(null, oldPos, SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+        player.getWorld().playSound(null, oldPos, SoundEvents.ENTITY_ENDERMAN_TELEPORT,
             SoundCategory.BLOCKS, 1F, 1F);
         //FabricWaystones.LOGGER.info("Teleporting...");
         FabricDimensions.teleport(player, world, target);
         BlockPos playerPos = player.getBlockPos();
 
-        if (!oldPos.isWithinDistance(playerPos, 6) || !player.world.getRegistryKey().equals(world.getRegistryKey())) {
+        if (!oldPos.isWithinDistance(playerPos, 6) || !player.getWorld().getRegistryKey().equals(world.getRegistryKey())) {
             world.playSound(null, playerPos, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1F, 1F);
         }
         return true;

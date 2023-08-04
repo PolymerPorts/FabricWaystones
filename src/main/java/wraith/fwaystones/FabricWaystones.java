@@ -16,6 +16,7 @@ public class FabricWaystones implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
         LOGGER.info("Is initializing.");
         Config.getInstance().loadConfig();
         BlockRegistry.registerBlocks();
