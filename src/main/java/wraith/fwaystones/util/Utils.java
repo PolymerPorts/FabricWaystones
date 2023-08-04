@@ -141,7 +141,7 @@ public final class Utils {
         if (waystone == null) {
             return false;
         }
-        int amount = getCost(player.getPos(), Vec3d.ofCenter(waystone.way_getPos()), Utils.getDimensionName(player.world), waystone.getWorldName());
+        int amount = getCost(player.getPos(), Vec3d.ofCenter(waystone.way_getPos()), Utils.getDimensionName(player.getWorld()), waystone.getWorldName());
         if (player.isCreative()) {
             return true;
         }
@@ -193,7 +193,7 @@ public final class Utils {
                 if (takeCost) {
                     removeItem(player.getInventory(), Registries.ITEM.get(itemId), amount);
 
-                    if (player.world.isClient || FabricWaystones.WAYSTONE_STORAGE == null) {
+                    if (player.getWorld().isClient || FabricWaystones.WAYSTONE_STORAGE == null) {
                         return true;
                     }
                     var waystoneBE = waystone.getEntity();
